@@ -5,30 +5,8 @@ services:
     image: onlyoffice/documentserver
     container_name: onlyoffice
     restart: always
-    expose:
-      - "80"
-    env_file:
-      - .env
-    networks:
-      - onlyoffice
-
-
-  nginx:
-    image: nginx:latest
-    container_name: onlyoffice-nginx
-    restart: always
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-      -  /etc/letsencrypt:/etc/letsencrypt:ro
-      - ./certbot/www:/var/www/certbot
-    depends_on:
-      - onlyoffice-documentserver
-    networks:
-      - onlyoffice
-
-networks:
-  onlyoffice:
-    driver: bridge
+      - "8080:80"
+    environment:
+      - JWT_ENABLED=${JWT_ENABLED}
+      - JWT_SECRET=${JWT_SECRET}
